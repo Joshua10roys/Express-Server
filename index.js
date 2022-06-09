@@ -21,6 +21,11 @@ const client = await createConnection();
 // intercepting and changing to json
 app.use(express.json());
 
+// home page
+app.get('/', async (req, res) => {
+    res.send("Hello World");
+})
+
 // movies page
 app.get('/movies', async (req, res) => {
     const movies = await client.db("b33wd").collection("movies").find({}).toArray();
