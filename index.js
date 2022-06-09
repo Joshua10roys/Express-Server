@@ -5,6 +5,7 @@ const app = express();
 const port = process.env.PORT;
 
 dotenv.config();
+// console.log(process.env)     // environment variable
 
 const MONGO_URL = process.env.MONGO_URL;
 
@@ -14,14 +15,17 @@ async function createConnection() {
     console.log("MongoDB is Connected");
     return client;
 }
+// top level await
 const client = await createConnection();
 
-// changing to json
+// intercepting and changing to json
 app.use(express.json());
 
 // movies page
 app.get('/movies', async (req, res) => {
     const movies = await client.db("b33wd").collection("movies").find({}).toArray();
+    // find returns cursor - pagination
+    // toArray - cursor -> array 
     res.send(movies);
 })
 
@@ -35,11 +39,12 @@ app.get('/movies/:id', async (req, res) => {
 // posting movie to mongodb
 app.post('/movies', async function (req, res) {
     const data = req.body;
+    // console.log(data);
     const result = await client.db("b33wd").collection("movies").insertMany(data);
+    // console.log(result);
     res.send(result);
 });
 
-<<<<<<< HEAD
 // posting movie by id to mongodb
 app.post('/movies/:id', async function (req, res) {
     const data = req.body;
@@ -65,6 +70,3 @@ app.put('/movies/:id', async function (req, res) {
 });
 
 app.listen(port, () => console.log(`server is running on port ${port}`))
-=======
-app.listen(port, () => console.log(`server is running on port ${port}`))
->>>>>>> a8062c12968335ec0b50ce5698cf58051200b12e
