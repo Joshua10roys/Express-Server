@@ -2,6 +2,8 @@ import express from 'express';
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv';
 import { movieRouter } from './router/movies.js';
+import { usersRouter } from './users.js';
+import bcrypt from 'bcrypt';
 
 const app = express();
 // const port = 4000;
@@ -28,6 +30,8 @@ app.use(express.json());
 
 // routing to movieRouter
 app.use('/movies', movieRouter);
+
+app.use('/users', usersRouter);
 
 // home page
 app.get('/', async (req, res) => {
